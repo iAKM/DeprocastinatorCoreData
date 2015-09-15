@@ -10,7 +10,7 @@
 		2651D3E41BA670EF00DA09BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2651D3E31BA670EF00DA09BE /* main.m */; };
 		2651D3E71BA670EF00DA09BE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2651D3E61BA670EF00DA09BE /* AppDelegate.m */; };
 		2651D3EA1BA670EF00DA09BE /* DeprocastinatorCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2651D3E81BA670EF00DA09BE /* DeprocastinatorCoreData.xcdatamodeld */; };
-		2651D3ED1BA670EF00DA09BE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2651D3EC1BA670EF00DA09BE /* ViewController.m */; };
+		2651D3ED1BA670EF00DA09BE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2651D3EC1BA670EF00DA09BE /* MainViewController.m */; };
 		2651D3F01BA670EF00DA09BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2651D3EE1BA670EF00DA09BE /* Main.storyboard */; };
 		2651D3F21BA670EF00DA09BE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2651D3F11BA670EF00DA09BE /* Images.xcassets */; };
 		2651D3F51BA670EF00DA09BE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2651D3F31BA670EF00DA09BE /* LaunchScreen.xib */; };
@@ -35,8 +35,8 @@
 		2651D3E51BA670EF00DA09BE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2651D3E61BA670EF00DA09BE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2651D3E91BA670EF00DA09BE /* DeprocastinatorCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DeprocastinatorCoreData.xcdatamodel; sourceTree = "<group>"; };
-		2651D3EB1BA670EF00DA09BE /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		2651D3EC1BA670EF00DA09BE /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		2651D3EB1BA670EF00DA09BE /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		2651D3EC1BA670EF00DA09BE /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		2651D3EF1BA670EF00DA09BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2651D3F11BA670EF00DA09BE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2651D3F41BA670EF00DA09BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -86,12 +86,12 @@
 		2651D3E01BA670EF00DA09BE /* DeprocastinatorCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				26A8FCC41BA7CBBD00364A6C /* Task.h */,
-				26A8FCC51BA7CBBD00364A6C /* Task.m */,
 				2651D3E51BA670EF00DA09BE /* AppDelegate.h */,
 				2651D3E61BA670EF00DA09BE /* AppDelegate.m */,
-				2651D3EB1BA670EF00DA09BE /* ViewController.h */,
-				2651D3EC1BA670EF00DA09BE /* ViewController.m */,
+				2651D3EB1BA670EF00DA09BE /* MainViewController.h */,
+				2651D3EC1BA670EF00DA09BE /* MainViewController.m */,
+				26A8FCC41BA7CBBD00364A6C /* Task.h */,
+				26A8FCC51BA7CBBD00364A6C /* Task.m */,
 				2651D3EE1BA670EF00DA09BE /* Main.storyboard */,
 				2651D3F11BA670EF00DA09BE /* Images.xcassets */,
 				2651D3F31BA670EF00DA09BE /* LaunchScreen.xib */,
@@ -230,7 +230,7 @@
 				26A8FCC61BA7CBBD00364A6C /* Task.m in Sources */,
 				2651D3E71BA670EF00DA09BE /* AppDelegate.m in Sources */,
 				2651D3EA1BA670EF00DA09BE /* DeprocastinatorCoreData.xcdatamodeld in Sources */,
-				2651D3ED1BA670EF00DA09BE /* ViewController.m in Sources */,
+				2651D3ED1BA670EF00DA09BE /* MainViewController.m in Sources */,
 				2651D3E41BA670EF00DA09BE /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

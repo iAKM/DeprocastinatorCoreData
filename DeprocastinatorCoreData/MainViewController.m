@@ -6,51 +6,63 @@
 //  Copyright (c) 2015 iAKM. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "MainViewController.h"
 #import "AppDelegate.h"
 #import "Task.h"
 
-@interface ViewController ()<UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
+@interface MainViewController ()<UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property NSManagedObjectContext *moc;
 @property (strong, nonatomic) IBOutlet UITextField *textField;
-@property NSMutableArray *tasks;
-@property NSIndexPath *dip;
 @property (strong, nonatomic) IBOutlet UIButton *addButton;
+@property NSMutableArray *tasks;
+@property NSIndexPath *deleteIndexPath;
+@property NSManagedObjectContext *moc;
 
 @end
 
-@implementation ViewController
+@implementation MainViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     self.tasks = [NSMutableArray new];
-
     self.addButton.enabled = NO;
+
     AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     self.moc = delegate.managedObjectContext;
     [self loadTasks];
 
-    //this enables edit/done button
+    //this creates edit/done button
     self.navigationItem.rightBarButtonItem = [self editButtonItem];
     self.editButtonItem.tintColor = [UIColor whiteColor];
-
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor]}];
 
+    //tap gesture recg to dismiss keyboard when tapped outside textfield
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
+
+    //a simple yet powerful line of code which doesnt obstruct tapping another buttons
+    tap.cancelsTouchesInView = NO;
+
+  //  tap gesture recg to enable swiping right for priority
     UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(cellSwiped:)];
     recognizer.direction = UISwipeGestureRecognizerDirectionRight;
     [self.tableView addGestureRecognizer:recognizer];
 
 }
-//selector method
+
+
+#pragma mark - Selector Methods
+#pragma mark -
 -(void)cellSwiped:(UIGestureRecognizer *) gestureRecognizer
 {
     //setting location for the swipe
     CGPoint location = [gestureRecognizer locationInView:self.tableView];
-
+    //setting indexpath
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
 
     if (indexPath)
@@ -62,7 +74,6 @@
         {
             temp ++;
             [eachTask setPriority:[NSNumber numberWithInt:temp]];
-
         }
         else
         {
@@ -74,7 +85,13 @@
     }
 
 }
+//selector method for dismissing keyboard
+-(void)dismissKeyboard {
+    [self.textField resignFirstResponder];
+}
 
+#pragma mark - Helper Methods
+#pragma mark -
 -(void)loadTasks
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Task"];
@@ -83,8 +100,10 @@
     self.tasks = (NSMutableArray *)[self.moc executeFetchRequest:request error:nil];
     [self.tableView reloadData];
 
-
 }
+
+#pragma mark - Action Methods
+#pragma mark -
 - (IBAction)onAddButtonPressed:(UIButton *)sender {
 
     Task *newTask = [NSEntityDescription insertNewObjectForEntityForName:@"Task" inManagedObjectContext:self.moc];
@@ -93,7 +112,7 @@
 
     if (self.tasks.count <=0)
     {
-        newTask.displayOrder = [NSNumber numberWithInteger:0];
+        newTask.displayOrder = [NSNumber numberWithInteger:1];
     }
     else
     {
@@ -110,10 +129,9 @@
 
 
     [self.tableView reloadData];
-   self.addButton.enabled = NO;
-
+    self.addButton.enabled = NO;
 }
-
+//enables button only if textfield has text
 - (IBAction)onTextEntered:(UITextField *)sender {
 
     if ([self.textField hasText])
@@ -183,25 +201,25 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-         self.dip = indexPath;
+         self.deleteIndexPath = indexPath;
 
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Confirmation" message:@"Are you Sure?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
         [alert show];
     }
 }
-
+// index = 1 ---> YES button
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1)
     {
-        [self.moc deleteObject:[self.tasks objectAtIndex:self.dip.row]];
+        [self.moc deleteObject:[self.tasks objectAtIndex:self.deleteIndexPath.row]];
         [self.tableView beginUpdates];
 
         id tmp = [self.tasks mutableCopy];
-        [tmp removeObjectAtIndex:self.dip.row];
+        [tmp removeObjectAtIndex:self.deleteIndexPath.row];
         self.tasks = [tmp copy];
 
-        [self.tableView deleteRowsAtIndexPaths:@[self.dip] withRowAnimation:UITableViewRowAnimationLeft];
+        [self.tableView deleteRowsAtIndexPaths:@[self.deleteIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
         [self.tableView endUpdates];
         [self.moc save:nil];
 
@@ -214,24 +232,6 @@
 
 }
 
--(void)setEditing:(BOOL)editing animated:(BOOL)animated
-{
-    [super setEditing:editing animated:animated];
-
-    if (editing)
-    {
-        [self.tableView setEditing:YES animated:YES];
-        [self.tableView reloadData];
-
-    }
-    else
-    {
-        [self.tableView setEditing:NO animated:YES];
-        [self.tableView reloadData];
-
-
-    }
-}
 
 -(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -282,5 +282,26 @@
     [self loadTasks];
 
 }
+
+-(void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+
+    if (editing)
+    {
+        [self.tableView setEditing:YES animated:YES];
+        [self.tableView reloadData];
+
+    }
+    else
+    {
+        [self.tableView setEditing:NO animated:YES];
+        [self.tableView reloadData];
+        
+        
+    }
+}
+
+
 
 @end
